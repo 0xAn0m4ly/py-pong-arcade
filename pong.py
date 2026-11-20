@@ -15,12 +15,19 @@ racket_1_speed = 10
 ball_speed_x = 8
 ball_speed_y = 4
 
+#Points
+current_points = 0
+record = 0
+
 pygame.init()
 
 window = pygame.display.set_mode((screen.width, screen.height))
 pygame.display.set_caption('Pong')
 
 clock = pygame.time.Clock()
+font = pygame.font.SysFont("couriernew", 52)
+font_2 = pygame.font.SysFont("impact", 100)
+font_3 = pygame.font.SysFont("couriernew", 45)
 
 running = True
 game_over = False
@@ -43,6 +50,16 @@ while running:
 
     window.fill((0,0,0))
 
+    display_points = font.render(f"{current_points}", True, (255,255,255))
+    display_points_rect = display_points.get_rect(center=(670,50))
+    button_phrase = font_2.render("Restart", True, (255,255,255))
+    button_phrase_rect = button_phrase.get_rect(center=(700,835))
+    display_final_points = font.render(f"Your score: {current_points}", True, (255,255,255))
+    display_final_points_rect = display_final_points.get_rect(center=(700,370))
+    display_record = font_3.render(f"All time record: {record}", True, (255,255,255))
+    display_record_rect = display_record.get_rect(center=(700,450))
+
+
     if game_over:
         racket_1_y = 450
         racket_2_y = 450
@@ -51,8 +68,11 @@ while running:
         racket_1_speed = 10
         ball_speed_x = 8
         ball_speed_y = 4
-        button = pygame.Rect(550,750,300,100)
-        pygame.draw.rect(window, (0,200,0), button)
+        button = pygame.Rect(550,780,300,100)
+        pygame.draw.rect(window, (255,160,80), button)
+        window.blit(button_phrase, button_phrase_rect)
+        window.blit(display_final_points, display_final_points_rect)
+        window.blit(display_record, display_record_rect)
         pos_mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -64,6 +84,7 @@ while running:
                     collision_2 = False
                     up_border_collision = False
                     low_border_collision = False
+                    current_points = 0
                     game_over = False
                 
 
@@ -107,6 +128,9 @@ while running:
             elif impact_point > 60:
                 d_ball_speed_y = 3
 
+            current_points += 1
+            if current_points > record:
+                record += 1
             start = False
             collision_2 = False
             up_border_collision = False
@@ -169,6 +193,8 @@ while running:
     
         if ball_x > 1360 or ball_x < 40:
             game_over = True
+
+        window.blit(display_points, display_points_rect)
 
 
     pygame.display.flip()
