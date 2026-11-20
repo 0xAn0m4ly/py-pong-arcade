@@ -28,10 +28,12 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("couriernew", 52)
 font_2 = pygame.font.SysFont("impact", 100)
 font_3 = pygame.font.SysFont("couriernew", 45)
+font_4 = pygame.font.SysFont("couriernew", 100)
 
 running = True
 game_over = False
-start = True
+access = True
+start = False
 collision_1 = False
 collision_2 = False
 up_border_collision = False
@@ -50,6 +52,12 @@ while running:
 
     window.fill((0,0,0))
 
+    title = font_4.render("PONG", True, (255,160,80))
+    title_rect = title.get_rect(center=(700,300))
+    author = font_3.render("by 4n0m4ly", True, (255,255,255))
+    author_rect = author.get_rect(center=(700,400))
+    access_button_phrase = font_2.render("Start", True, (255,255,255))
+    access_button_phrase_rect = access_button_phrase.get_rect(center=(700,835))
     display_points = font.render(f"{current_points}", True, (255,255,255))
     display_points_rect = display_points.get_rect(center=(670,50))
     button_phrase = font_2.render("Restart", True, (255,255,255))
@@ -59,8 +67,22 @@ while running:
     display_record = font_3.render(f"All time record: {record}", True, (255,255,255))
     display_record_rect = display_record.get_rect(center=(700,450))
 
+    if access:
+        window.blit(title, title_rect)
+        window.blit(author, author_rect)
+        access_button = pygame.Rect(550,780,300,100)
+        pygame.draw.rect(window, (255,160,80), access_button)
+        window.blit(access_button_phrase, access_button_phrase_rect)
+        pos_mouse = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if access_button.collidepoint(pos_mouse):
+                    start = True
+                    access = False
 
-    if game_over:
+    elif game_over:
         racket_1_y = 450
         racket_2_y = 450
         ball_x = 700
