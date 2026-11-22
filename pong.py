@@ -24,7 +24,14 @@ pygame.init()
 window = pygame.display.set_mode((screen.width, screen.height))
 pygame.display.set_caption('Pong')
 
+#Sounds
+sound_1 = pygame.mixer.Sound("sound_a.wav")
+sound_2 = pygame.mixer.Sound("sound_b.wav")
+sound_3 = pygame.mixer.Sound("game_over.wav")
+
 clock = pygame.time.Clock()
+
+#Fonts
 font = pygame.font.SysFont("couriernew", 52)
 font_2 = pygame.font.SysFont("impact", 100)
 font_3 = pygame.font.SysFont("couriernew", 45)
@@ -41,17 +48,19 @@ low_border_collision = False
 left = False
 right = False
 
+#Events
 increase_ball_speed = pygame.USEREVENT + 1
 pygame.time.set_timer(increase_ball_speed, 2000)
 
 increase_racket_speed = pygame.USEREVENT + 2
-pygame.time.set_timer(increase_racket_speed, 7000)
+pygame.time.set_timer(increase_racket_speed, 6000)
 
 
 while running:
 
     window.fill((0,0,0))
 
+    #Phrases
     title = font_4.render("PONG", True, (255,160,80))
     title_rect = title.get_rect(center=(700,300))
     author = font_3.render("by 4n0m4ly", True, (255,255,255))
@@ -142,6 +151,7 @@ while running:
         
 
         if ball.colliderect(racket_1):
+            sound_1.play()
             impact_point = ball_y - racket_1_y
             if impact_point < 40:
                 d_ball_speed_y = -3
@@ -162,6 +172,7 @@ while running:
             left = True
 
         if ball.colliderect(racket_2):
+            sound_2.play()
             number = random.randint(1,2)
             collision_1 = False
             up_border_collision = False
@@ -214,6 +225,7 @@ while running:
 
     
         if ball_x > 1360 or ball_x < 40:
+            sound_3.play()
             game_over = True
 
         window.blit(display_points, display_points_rect)
