@@ -1,8 +1,21 @@
+"""
+Game Name: Pong
+Description: This is my version of the
+famous game Pong, the machanics are the
+same but the gameplay and the score
+system have been redesigned.
+Author: 0xAn0m4ly
+Date: 24/11/2026
+Version: 1.0
+"""
+
+#Libraries
 import pygame
-from settings import screen_settings, racket_1_settings
 import random
 
-screen = screen_settings()
+#Screen
+screen_width = 1400
+screen_height = 1000
 
 #Coords
 racket_1_y = 450
@@ -21,7 +34,7 @@ record = 0
 
 pygame.init()
 
-window = pygame.display.set_mode((screen.width, screen.height))
+window = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Pong')
 
 #Sounds
@@ -235,4 +248,3 @@ while running:
     clock.tick(60)
 
 pygame.quit()
-
